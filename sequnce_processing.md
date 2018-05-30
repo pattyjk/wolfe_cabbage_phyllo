@@ -41,7 +41,7 @@ mkdir mergedfastq
 ./usearch64 -cluster_fast mergedfastq/nosigs_uniques_combined_merged.fastq -centroids_fastq mergedfastq/denoised_nosigs_uniques_combined_merged.fastq -id 0.9 -maxdiffs 5 -abskew 10 -sizein -sizeout -sort size
 ```
 
-## Reference-based OTU picking against the 13.8 version of GreenGenes
+## Reference-based OTU picking against Silva 1.32
 ```
 ./usearch64 -usearch_global mergedfastq/denoised_nosigs_uniques_combined_merged.fastq -id 0.97 -db /mnt/home/kearnspa/SILVA_132_QIIME_release/rep_set/rep_set_16S_only/97/silva_132_97_16S.fna  -strand plus -uc mergedfastq/ref_seqs.uc -dbmatched mergedfastq/closed_reference.fasta -notmatchedfq mergedfastq/failed_closed.fq
 ```
@@ -62,3 +62,7 @@ cat mergedfastq/closed_reference.fasta mergedfastq/denovo_otus.fasta > mergedfas
 ```
 ./usearch64 -usearch_global mergedfastq/merged.fq -db mergedfastq/full_rep_set.fna  -strand plus -id 0.97 -uc OTU_map.uc -otutabout mergedfastq/OTU_table.txt -biomout mergedfastq/OTU_jsn.biom
 ```
+
+## Assign taxonomy to OTUS
+```
+#QIIME 1.8
