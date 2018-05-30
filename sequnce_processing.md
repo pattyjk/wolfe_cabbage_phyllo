@@ -69,7 +69,7 @@ cat mergedfastq/closed_reference.fasta mergedfastq/denovo_otus.fasta > mergedfas
 ./usearch64 -usearch_global mergedfastq/merged.fq -db mergedfastq/full_rep_set.fna  -strand plus -id 0.97 -uc OTU_map.uc -otutabout mergedfastq/OTU_table.txt -biomout mergedfastq/OTU_jsn.biom
 ```
 
-## Assign taxonomy to OTUS with RDP classifier
+## Assign taxonomy to OTUS with uclust, filter bad things
 ```
 assign_taxonomy.py -i mergedfastq/full_rep_set.fna -o taxonomy -r /mnt/home/kearnspa/SILVA_132_QIIME_release/rep_set/rep_set_16S_only/97/silva_132_97_16S.fna -t /mnt/home/kearnspa/SILVA_132_QIIME_release/taxonomy/16S_only/97/consensus_taxonomy_7_levels.txt
 
