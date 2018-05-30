@@ -4,12 +4,18 @@
 ## prep reads for UPARSE with J. Leff's tool
 git clone https://github.com/leffj/helper-code-for-uparse.git
 
-python helper-code-for-uparse/prep_fastq_for_uparse_paired.py -i Esther16SAmpliconData/Run2/Undetermined_S0_L001_R1_001.fastq.gz -r Esther16SAmpliconData/Run2/Undetermined_S0_L001_R2_001.fastq.gz -b Esther16SAmpliconData/Run2/Undetermined_S0_L001_I1_001.fastq.gz -m esther_map.txt -o esther_uparse
+python prep_fastq_for_uparse_paired.py -i Esther16SAmpliconData/Run2/Undetermined_S0_L001_R1_001.fastq.gz -r Esther16SAmpliconData/Run2/Undetermined_S0_L001_R2_001.fastq.gz -b Esther16SAmpliconData/Run2/Undetermined_S0_L001_I1_001.fastq.gz -m esther_map.txt -o esther_uparse
 
-#rename sample
+#rename sample and stupid space with sed in shell
+#this has to be done or samples will all come out with name of sequencer
 sed 's/barcodelabel/sample/g' demultiplexed_seqs_1.fq > R1.fq
 sed 's/barcodelabel/sample/g' demultiplexed_seqs_2.fq > R2.fq
-```
+sed -i 's/ 1:N:/1:N:/g' R1.fq
+sed -i 's/ 2:N:/2:N:/g' R2.fq
+
+#can verify with usearch script below if needed
+# ./usearch64 -fastx_get_sample_names reads.fa -output samples.txt
+ ```
 
 ## Pull the latest release of Silva (1.32)
 ```
@@ -23,7 +29,7 @@ unzip Silva_132_release.zip
 ```
 #UPARSE 10.0.24, 64-bit
 mkdir mergedfastq
-./usearch64 -fastq_mergepairs esther_uparse/demultiplexed_seqs_1.fq -reverse esther_uparse/demultiplexed_seqs_2.fq -fastqout mergedfastq/merged.fq -fastq_maxdiffs 10 -fastq_merge_maxee 1.0
+./usearch64 -fastq_mergepairs esther_uparse/R1.fq -reverse esther_uparse/R2.fq -fastqout mergedfastq/merged.fq -fastq_maxdiffs 10 -fastq_merge_maxee 1.0
 ```
 
 ## Dereplicate sequences
@@ -66,3 +72,5 @@ cat mergedfastq/closed_reference.fasta mergedfastq/denovo_otus.fasta > mergedfas
 ## Assign taxonomy to OTUS
 ```
 #QIIME 1.8
+
+## Filter chloroplast, mitochondria
