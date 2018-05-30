@@ -69,8 +69,13 @@ cat mergedfastq/closed_reference.fasta mergedfastq/denovo_otus.fasta > mergedfas
 ./usearch64 -usearch_global mergedfastq/merged.fq -db mergedfastq/full_rep_set.fna  -strand plus -id 0.97 -uc OTU_map.uc -otutabout mergedfastq/OTU_table.txt -biomout mergedfastq/OTU_jsn.biom
 ```
 
-## Assign taxonomy to OTUS
+## Assign taxonomy to OTUS with RDP classifier
 ```
-#QIIME 1.8
+assign_taxonomy.py -i mergedfastq/full_rep_set.fna -o taxonomy -r /mnt/home/kearnspa/SILVA_132_QIIME_release/rep_set/rep_set_16S_only/97/silva_132_97_16S.fna -t /mnt/home/kearnspa/SILVA_132_QIIME_release/taxonomy/16S_only/97/consensus_taxonomy_7_levels.txt
+
+#add taxonomy to OTU table
+biom add-metadata -i mergedfastq/OTU_jsn.biom -o mergedfastq/otu_table_tax.biom --observation-metadata-fp=taxonomy/full_rep_set_tax_assignments.txt --sc-separated=taxonomy --observation-header=OTUID,taxonomy
 
 ## Filter chloroplast, mitochondria
+filter_taxa_from_otu_table.py -i mergedfastq/otu_table_tax.biom -o mergedfastq/otu_table_tax_filt.biom -n D_3__Chloroplast,o__Streptophyta,o__Chlorophyta,f__mitochondria,Unassigned
+```
