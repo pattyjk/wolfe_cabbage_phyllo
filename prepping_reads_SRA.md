@@ -1,4 +1,4 @@
-## Prepaering reads for the NCBI SRA
+## Preparing reads for submissing to the NCBI SRA
 ### Demultiplex reads
 ```
 #qiime v. 1.9
