@@ -17,7 +17,7 @@ split_libraries_fastq.py -i '/home/pattyjk/Desktop/JonahVentures_March2018_Cabba
 ```
 #make sure to call "--file_type=fastq"
 #R1
-split_sequence_file_on_sample_ids.py -i '/home/pattyjk/qiimeR1-2/seqs.fastq' -o qiimeR1/split --file_type=fastq
+split_sequence_file_on_sample_ids.py -i '/home/pattyjk/qiimeR1/seqs.fastq' -o qiimeR1/split --file_type=fastq
 
 #R2
 split_sequence_file_on_sample_ids.py -i '/home/pattyjk/qiimeR2/seqs.fastq' -o qiimeR2/split --file_type=fastq
